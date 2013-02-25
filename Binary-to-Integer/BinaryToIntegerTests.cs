@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NUnit.Framework;
 
 namespace Binary_to_Integer
@@ -16,19 +17,30 @@ namespace Binary_to_Integer
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
-		private static int ParseBinary(string binary)
+		private static int ParseBinary(string binaryData)
 		{
 			var total = 0;
-			for (var index = 0; index < binary.Length; index++)
+			for (var bitPosition = 0; bitPosition < binaryData.Length; bitPosition++)
 			{
-				var n = binary[binary.Length - index - 1];
-				if (n == '1')
-				{
-					total += (int)Math.Pow(2, index);
-				}
+				var currentBitIndex = binaryData.Length - bitPosition - 1;
+				var bit = binaryData[currentBitIndex];
+
+				var bitValue =  int.Parse(bit.ToString(CultureInfo.InvariantCulture));
+
+				total += ConvertBitToInteger(bitValue, bitPosition);
 			}
 
 			return total;
+		}
+
+		private static bool BitIsSet(char bit)
+		{
+			return bit == '1';
+		}
+
+		private static int ConvertBitToInteger(int bitValue, int bitPosition)
+		{
+			return (int)Math.Pow(2, bitPosition) * bitValue;
 		}
 	}
 }
