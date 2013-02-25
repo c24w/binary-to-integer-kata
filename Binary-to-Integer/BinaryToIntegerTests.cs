@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 
 namespace Binary_to_Integer
@@ -19,35 +21,51 @@ namespace Binary_to_Integer
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
-		[Test]
-		public void should_handle_negative_binary_data()
+		[TestCase("-1", -1)]
+		[TestCase("-11", -3)]
+		[TestCase("-10", -2)]
+		[TestCase("-101", -5)]
+		public void should_handle_negative_binary_data(string binary, int expected)
 		{
-			var result = ParseBinary("-1");
-			Assert.That(result, Is.EqualTo(-1));
+			var result = ParseBinary(binary);
+			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void should_not_process_invalid_binary_data()
+		{
+			Assert.Throws<ArgumentException>(() => ParseBinary("1-"));
 		}
 
 		private static int ParseBinary(string binaryData)
 		{
-			var bits = binaryData.Reverse().ToList();
+			var validPattern = new Regex("^-?[01]+$");
 
-			var binaryDataIntegerValue = 0;
+			if (!validPattern.IsMatch(binaryData))
+			{
+				throw new ArgumentException();
+			}
+
+			var bits = binaryData.Reverse().ToList();
+			var isNegative = bits.Remove('-');
+
+			var binaryDataIntegerValue = BitsToInt(bits);
+
+			return isNegative ? (0 - binaryDataIntegerValue) : binaryDataIntegerValue;
+		}
+
+		private static int BitsToInt(List<char> bits)
+		{
+			var result = 0;
 
 			for (var bitPosition = 0; bitPosition < bits.Count(); bitPosition++)
 			{
 				var bit = bits[bitPosition];
 
-				if (bit == '-')
-				{
-					binaryDataIntegerValue = 0 - binaryDataIntegerValue;
-				}
-				else
-				{
-					var bitValue = CharToInt(bit);
-					binaryDataIntegerValue += ConvertBitToInteger(bitValue, bitPosition);
-				}
+				var bitValue = CharToInt(bit);
+				result += BitToInt(bitValue, bitPosition);
 			}
-
-			return binaryDataIntegerValue;
+			return result;
 		}
 
 		private static int CharToInt(char character)
@@ -55,7 +73,7 @@ namespace Binary_to_Integer
 			return int.Parse(character.ToString(CultureInfo.InvariantCulture));
 		}
 
-		private static int ConvertBitToInteger(int bitValue, int bitPosition)
+		private static int BitToInt(int bitValue, int bitPosition)
 		{
 			return (int)Math.Pow(2, bitPosition) * bitValue;
 		}
