@@ -1,0 +1,7 @@
+C:\work\Binary-to-Integer\Binary-to-Integer\bin\Debug\Binary-to-Integer.dll
+C:\work\Binary-to-Integer\Binary-to-Integer\bin\Debug\Binary-to-Integer.pdb
+C:\work\Binary-to-Integer\Binary-to-Integer\bin\Debug\nunit.framework.dll
+C:\work\Binary-to-Integer\Binary-to-Integer\bin\Debug\nunit.framework.xml
+C:\work\Binary-to-Integer\Binary-to-Integer\obj\Debug\Binary-to-Integer.csprojResolveAssemblyReference.cache
+C:\work\Binary-to-Integer\Binary-to-Integer\obj\Debug\Binary-to-Integer.dll
+C:\work\Binary-to-Integer\Binary-to-Integer\obj\Debug\Binary-to-Integer.pdb
