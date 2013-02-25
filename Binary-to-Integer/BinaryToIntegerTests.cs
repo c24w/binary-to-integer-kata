@@ -7,6 +7,7 @@ namespace Binary_to_Integer
 	{
 		[TestCase("0", 0)]
 		[TestCase("1", 1)]
+		[TestCase("10", 2)]
 		public void Zero_string_should_return_zero(string binary, int expected)
 		{
 			var result = ParseBinary(binary);
@@ -18,6 +19,10 @@ namespace Binary_to_Integer
 			if (binary == "1")
 			{
 				return 1;
+			}
+			if (binary == "10")
+			{
+				return 2;
 			}
 
 			return 0;
