@@ -13,10 +13,17 @@ namespace Binary_to_Integer
 		[TestCase("10", 2)]
 		[TestCase("101", 5)]
 		[TestCase("1001001", 73)]
-		public void Zero_string_should_return_zero(string binary, int expected)
+		public void should_convert_binary_string_into_integer_value(string binary, int expected)
 		{
 			var result = ParseBinary(binary);
 			Assert.That(result, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void should_handle_negative_binary_data()
+		{
+			var result = ParseBinary("-1");
+			Assert.That(result, Is.EqualTo(-1));
 		}
 
 		private static int ParseBinary(string binaryData)
@@ -29,8 +36,15 @@ namespace Binary_to_Integer
 			{
 				var bit = bits[bitPosition];
 
-				var bitValue = CharToInt(bit);
-				binaryDataIntegerValue += ConvertBitToInteger(bitValue, bitPosition);
+				if (bit == '-')
+				{
+					binaryDataIntegerValue = 0 - binaryDataIntegerValue;
+				}
+				else
+				{
+					var bitValue = CharToInt(bit);
+					binaryDataIntegerValue += ConvertBitToInteger(bitValue, bitPosition);
+				}
 			}
 
 			return binaryDataIntegerValue;
