@@ -10,6 +10,14 @@ namespace Binary_to_Integer
 	[TestFixture]
 	public class BinaryToIntegerTests
 	{
+		private BinaryParser _systemUnderTest;
+
+		[SetUp]
+		public void CreateSystemUnderTest()
+		{
+			_systemUnderTest = new BinaryParser();
+		}
+
 		[TestCase("0", 0)]
 		[TestCase("1", 1)]
 		[TestCase("10", 2)]
@@ -17,7 +25,7 @@ namespace Binary_to_Integer
 		[TestCase("1001001", 73)]
 		public void should_convert_binary_string_into_integer_value(string binary, int expected)
 		{
-			var result = ParseBinary(binary);
+			var result = _systemUnderTest.Parse(binary);
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
@@ -27,7 +35,7 @@ namespace Binary_to_Integer
 		[TestCase("-101", -5)]
 		public void should_handle_negative_binary_data(string binary, int expected)
 		{
-			var result = ParseBinary(binary);
+			var result = _systemUnderTest.Parse(binary);
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
@@ -38,10 +46,13 @@ namespace Binary_to_Integer
 		[TestCase("-1-")]
 		public void should_not_process_invalid_binary_data(string binary)
 		{
-			Assert.Throws<ArgumentException>(() => ParseBinary(binary));
+			Assert.Throws<ArgumentException>(() => _systemUnderTest.Parse(binary));
 		}
+	}
 
-		private static int ParseBinary(string binaryData)
+	public class BinaryParser
+	{
+		public int Parse(string binaryData)
 		{
 			ValidateBinaryData(binaryData);
 
