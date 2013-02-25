@@ -5,18 +5,12 @@ namespace Binary_to_Integer
 	[TestFixture]
     public class BinaryToIntegerTests
 	{
-		[Test]
-		public void Zero_string_should_return_zero()
+		[TestCase("0", 0)]
+		[TestCase("1", 1)]
+		public void Zero_string_should_return_zero(string binary, int expected)
 		{
-			var result = ParseBinary("0");
-			Assert.That(result, Is.EqualTo(0));
-		}
-
-		[Test]
-		public void One_string_should_return_one()
-		{
-			var result = ParseBinary("1");
-			Assert.That(result, Is.EqualTo(1));
+			var result = ParseBinary(binary);
+			Assert.That(result, Is.EqualTo(expected));
 		}
 
 		private static int ParseBinary(string binary)
