@@ -1,9 +1,10 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace Binary_to_Integer
 {
 	[TestFixture]
-    public class BinaryToIntegerTests
+	public class BinaryToIntegerTests
 	{
 		[TestCase("0", 0)]
 		[TestCase("1", 1)]
@@ -17,20 +18,17 @@ namespace Binary_to_Integer
 
 		private static int ParseBinary(string binary)
 		{
-			if (binary == "1")
+			var total = 0;
+			for (var index = 0; index < binary.Length; index++)
 			{
-				return 1;
-			}
-			if (binary == "10")
-			{
-				return 2;
-			}
-			if (binary == "101")
-			{
-				return 5;
+				var n = binary[binary.Length - index - 1];
+				if (n == '1')
+				{
+					total += (int)Math.Pow(2, index);
+				}
 			}
 
-			return 0;
+			return total;
 		}
 	}
 }
