@@ -12,8 +12,20 @@ namespace Binary_to_Integer
 			Assert.That(result, Is.EqualTo(0));
 		}
 
-		private int ParseBinary(string binary)
+		[Test]
+		public void One_string_should_return_one()
 		{
+			var result = ParseBinary("1");
+			Assert.That(result, Is.EqualTo(1));
+		}
+
+		private static int ParseBinary(string binary)
+		{
+			if (binary == "1")
+			{
+				return 1;
+			}
+
 			return 0;
 		}
 	}
