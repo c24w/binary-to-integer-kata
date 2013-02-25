@@ -25,17 +25,16 @@ namespace Binary_to_Integer
 				var currentBitIndex = binaryData.Length - bitPosition - 1;
 				var bit = binaryData[currentBitIndex];
 
-				var bitValue =  int.Parse(bit.ToString(CultureInfo.InvariantCulture));
-
+				var bitValue =  CharToInt(bit);
 				total += ConvertBitToInteger(bitValue, bitPosition);
 			}
 
 			return total;
 		}
 
-		private static bool BitIsSet(char bit)
+		private static int CharToInt(char character)
 		{
-			return bit == '1';
+			return int.Parse(character.ToString(CultureInfo.InvariantCulture));
 		}
 
 		private static int ConvertBitToInteger(int bitValue, int bitPosition)
