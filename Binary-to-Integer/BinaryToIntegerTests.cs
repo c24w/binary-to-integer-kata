@@ -31,20 +31,19 @@ namespace Binary_to_Integer
 			Assert.That(result, Is.EqualTo(expected));
 		}
 
-		[Test]
-		public void should_not_process_invalid_binary_data()
+		[TestCase("1-")]
+		[TestCase("gaju67rdhf")]
+		[TestCase("-")]
+		[TestCase("--")]
+		[TestCase("-1-")]
+		public void should_not_process_invalid_binary_data(string binary)
 		{
-			Assert.Throws<ArgumentException>(() => ParseBinary("1-"));
+			Assert.Throws<ArgumentException>(() => ParseBinary(binary));
 		}
 
 		private static int ParseBinary(string binaryData)
 		{
-			var validPattern = new Regex("^-?[01]+$");
-
-			if (!validPattern.IsMatch(binaryData))
-			{
-				throw new ArgumentException();
-			}
+			ValidateBinaryData(binaryData);
 
 			var bits = binaryData.Reverse().ToList();
 			var isNegative = bits.Remove('-');
@@ -52,6 +51,20 @@ namespace Binary_to_Integer
 			var binaryDataIntegerValue = BitsToInt(bits);
 
 			return isNegative ? (0 - binaryDataIntegerValue) : binaryDataIntegerValue;
+		}
+
+		private static void ValidateBinaryData(string binaryData)
+		{
+			if (TheBinaryDataIsNotInTheCorrectFormat(binaryData))
+			{
+				throw new ArgumentException();
+			}
+		}
+
+		private static bool TheBinaryDataIsNotInTheCorrectFormat(string binaryData)
+		{
+			var validPattern = new Regex("^-?[01]+$");
+			return !validPattern.IsMatch(binaryData);
 		}
 
 		private static int BitsToInt(List<char> bits)
