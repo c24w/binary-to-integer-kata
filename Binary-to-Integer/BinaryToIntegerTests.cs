@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Binary_to_Integer
@@ -11,6 +12,7 @@ namespace Binary_to_Integer
 		[TestCase("1", 1)]
 		[TestCase("10", 2)]
 		[TestCase("101", 5)]
+		[TestCase("1001001", 73)]
 		public void Zero_string_should_return_zero(string binary, int expected)
 		{
 			var result = ParseBinary(binary);
@@ -19,17 +21,19 @@ namespace Binary_to_Integer
 
 		private static int ParseBinary(string binaryData)
 		{
-			var total = 0;
-			for (var bitPosition = 0; bitPosition < binaryData.Length; bitPosition++)
-			{
-				var currentBitIndex = binaryData.Length - bitPosition - 1;
-				var bit = binaryData[currentBitIndex];
+			var bits = binaryData.Reverse().ToList();
 
-				var bitValue =  CharToInt(bit);
-				total += ConvertBitToInteger(bitValue, bitPosition);
+			var binaryDataIntegerValue = 0;
+
+			for (var bitPosition = 0; bitPosition < bits.Count(); bitPosition++)
+			{
+				var bit = bits[bitPosition];
+
+				var bitValue = CharToInt(bit);
+				binaryDataIntegerValue += ConvertBitToInteger(bitValue, bitPosition);
 			}
 
-			return total;
+			return binaryDataIntegerValue;
 		}
 
 		private static int CharToInt(char character)
